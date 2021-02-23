@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs';
-import { MockUserService } from '../../testing/user.service.mock';
+import { MockTodoService } from '../../testing/todo.service.mock';
 import { Todo } from './todo';
 import { TodoListComponent } from './todo-list.component';
 import { TodoService } from './todo.service';
@@ -47,7 +47,7 @@ describe('TodosListComponent', () => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [ TodoListComponent ],
-      providers: [{ provide: TodoService, useValue: new MockUserService() }]
+      providers: [{ provide: TodoService, useValue: new MockTodoService() }]
     });
   });
 
@@ -63,7 +63,7 @@ describe('TodosListComponent', () => {
     });
   }));
 
-  it('contains all the users', () => {
+  it('contains all the todos', () => {
     expect(todoList.serverFilteredTodos.length).toBe(3);
   });
 

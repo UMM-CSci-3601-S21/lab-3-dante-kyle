@@ -45,13 +45,13 @@
 
 
 <div fxLayout="row">
-  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todosError" >
+  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todoError" >
     <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
     <div [ngSwitch]="viewType">
 
       <!-- Card grid view -->
       <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="todo-cards-container">
-        <app-todos simple="true" *ngFor="let todos of filteredTodos" class="todo-card" [todos]="todos" fxFlex="1 1 280px"></app-todos>
+        <app-todo-card simple="true" *ngFor="let todo of filteredTodos" class="todo-card" [todos]="todo" fxFlex="1 1 280px"></app-todo-card>
       </div>
 
       <!-- List view -->
@@ -67,10 +67,10 @@
   </div>
 
   <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-  <ng-template #todosError>
+  <ng-template #todoError>
     <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="todo-error">
       <mat-error>
-        There was a problem loading the users. Possibly the server is down or perhaps there are network
+        There was a problem loading the todos. Possibly the server is down or perhaps there are network
         issues.
       </mat-error>
       <mat-error>

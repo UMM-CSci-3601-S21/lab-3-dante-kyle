@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { throwError } from 'rxjs';
 import { Todo } from './todo';
 import { TodoService } from './todo.service';
 
@@ -13,7 +12,7 @@ import { TodoService } from './todo.service';
 
 export class TodoListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
-  public serverFilteredTodos: Todo[];
+  public serverFilteredTodos: Todo[] = [];
   public filteredTodos: Todo[];
 
   public todoStatus: boolean;

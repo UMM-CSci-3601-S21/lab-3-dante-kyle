@@ -4,7 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TodoService } from './todo.service';
 
 @Component({
-  selector: 'app-todos',
+  selector: 'app-todo-card',
   templateUrl: './todo.component.html',
   providers: [TodoService],
   styleUrls: ['./todo.component.scss']

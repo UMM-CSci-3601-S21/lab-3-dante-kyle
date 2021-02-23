@@ -223,7 +223,7 @@ describe('TodoService', () => {
       const filters = { owner: todoOwner, category: todoCategory };
       const filteredTodos = todoService.filterTodos(testTodos, filters);
       // There should be just one todo with these properties.
-      expect(filteredTodos.length).toBe(1);
+      expect(filteredTodos.length).toBe(2);
       // Every returned todo should have _both_ these properties.
       filteredTodos.forEach(todo => {
         expect(todo.owner.indexOf(todoOwner)).toBeGreaterThanOrEqual(0);

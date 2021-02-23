@@ -1,26 +1,26 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Todos } from './todos';
+import { Todo } from './todo';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TodosService } from './todos.service';
+import { TodoService } from './todo.service';
 
 @Component({
   selector: 'app-todos',
-  templateUrl: './todos.component.html',
-  providers: [TodosService],
-  styleUrls: ['./todos.component.scss']
+  templateUrl: './todo.component.html',
+  providers: [TodoService],
+  styleUrls: ['./todo.component.scss']
 })
-export class TodosComponent implements OnInit {
-    @Input() todos: Todos;
+export class TodoComponent implements OnInit {
+    @Input() todos: Todo;
     @Input() simple?: boolean = false;
     dataSource;
 
     listData: MatTableModule;
     displayedColumns: string[] = ['owner', 'category', 'status', 'body'];
-    todo: Todos[] = [];
+    todo: Todo[] = [];
 
 
 
-    constructor(private http: TodosService) { };
+    constructor(private http: TodoService) { };
 
 
     ngOnInit(): void {

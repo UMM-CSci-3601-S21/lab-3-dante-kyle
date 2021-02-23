@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { throwError } from 'rxjs';
-import { Todos } from './todos';
-import { TodosService } from './todos.service';
+import { Todo } from './todo';
+import { TodoService } from './todo.service';
 
 @Component({
-  selector: 'app-todos-list-component',
-  templateUrl: 'todos-list.component.html',
-  styleUrls: ['./todos-list.component.scss'],
+  selector: 'app-todo-list-component',
+  templateUrl: 'todo-list.component.html',
+  styleUrls: ['./todo-list.component.scss'],
   providers: []
 })
 
-export class TodosListComponent implements OnInit {
+export class TodoListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
-  public serverFilteredTodos: Todos[];
-  public filteredTodos: Todos[];
+  public serverFilteredTodos: Todo[];
+  public filteredTodos: Todo[];
 
-  public todosStatus: boolean;
-  public todosOwner: string;
-  public todosBody: string;
-  public todosCategory: string;
+  public todoStatus: boolean;
+  public todoOwner: string;
+  public todoBody: string;
+  public todoCategory: string;
   public viewType: 'card' | 'list' = 'card';
 
   // Inject the UserService into this component.
@@ -27,16 +27,16 @@ export class TodosListComponent implements OnInit {
   //
   // We can call upon the service for interacting
   // with the server.
-  constructor(private todosService: TodosService, private snackBar: MatSnackBar) {
+  constructor(private todoService: TodoService, private snackBar: MatSnackBar) {
 
   }
 
   getTodosFromServer() {
-    this.todosService.getTodos({
-      status: this.todosStatus,
-      owner: this.todosOwner,
-      body: this.todosBody,
-      category: this.todosCategory
+    this.todoService.getTodos({
+      status: this.todoStatus,
+      owner: this.todoOwner,
+      body: this.todoBody,
+      category: this.todoCategory
     }).subscribe(returnedTodos => {
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();
@@ -62,11 +62,11 @@ export class TodosListComponent implements OnInit {
   }
 
   public updateFilter() {
-    this.filteredTodos = this.todosService.filterTodos(
-      this.serverFilteredTodos, { status: this.todosStatus,
-        owner: this.todosOwner,
-        body: this.todosBody,
-        category: this.todosCategory});
+    this.filteredTodos = this.todoService.filterTodos(
+      this.serverFilteredTodos, { status: this.todoStatus,
+        owner: this.todoOwner,
+        body: this.todoBody,
+        category: this.todoCategory});
   }
 
   /**

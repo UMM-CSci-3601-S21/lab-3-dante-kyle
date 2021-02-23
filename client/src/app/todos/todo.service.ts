@@ -2,17 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Todos } from './todos';
+import { Todo } from './todo';
 
 @Injectable()
-export class TodosService {
-  readonly todosUrl: string = environment.apiUrl + 'todos';
+export class TodoService {
+  readonly todoUrl: string = environment.apiUrl + 'todos';
 
   constructor(private httpClient: HttpClient) {
   }
 
-
-  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string }): Observable<Todos[]> {
+  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string }): Observable<Todo[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.status) {
@@ -28,17 +27,16 @@ export class TodosService {
         httpParams = httpParams.set('body', filters.body);
       }
     }
-    return this.httpClient.get<Todos[]>(this.todosUrl, {
+    return this.httpClient.get<Todo[]>(this.todoUrl, {
       params: httpParams,
     });
   }
 
-
-  getTodosById(id: string): Observable<Todos> {
-    return this.httpClient.get<Todos>(this.todosUrl + '/' + id);
+  getTodoById(id: string): Observable<Todo> {
+    return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todo: Todos[], filters: { status?: boolean; owner?: string; body?: string; category?: string }): Todos[] {
+  filterTodos(todo: Todo[], filters: { status?: boolean; owner?: string; body?: string; category?: string }): Todo[] {
 
     let filteredTodos = todo;
     // Filter by status

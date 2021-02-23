@@ -31,9 +31,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { UserCardComponent } from './users/user-card.component';
 import { UserProfileComponent } from './users/user-profile.component';
-import { TodosComponent } from './todos/todos.component';
-import { TodosListComponent } from './todos/todos-list.component';
-import { TodosService } from './todos/todos.service';
+import { TodoComponent } from './todos/todo.component';
+import { TodoListComponent } from './todos/todo-list.component';
+import { TodoService } from './todos/todo.service';
 
 import { MatTableModule } from '@angular/material/table';
 
@@ -64,8 +64,8 @@ const MATERIAL_MODULES: any[] = [
     UserListComponent,
     UserCardComponent,
     UserProfileComponent,
-    TodosComponent,
-    TodosListComponent,
+    TodoComponent,
+    TodoListComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +80,7 @@ const MATERIAL_MODULES: any[] = [
   ],
   providers: [
     UserService,
-    TodosService
+    TodoService
   ],
   bootstrap: [AppComponent]
 })

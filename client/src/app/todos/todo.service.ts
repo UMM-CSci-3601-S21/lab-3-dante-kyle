@@ -11,7 +11,7 @@ export class TodoService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string }): Observable<Todo[]> {
+  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string; limit?: number}): Observable<Todo[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.status) {
@@ -26,6 +26,10 @@ export class TodoService {
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
       }
+      // Filter by limit
+      if (filters.limit) {
+        httpParams = httpParams.set('limit', filters.limit.toString());
+      }
     }
     return this.httpClient.get<Todo[]>(this.todoUrl, {
       params: httpParams,
@@ -36,7 +40,7 @@ export class TodoService {
     return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todo: Todo[], filters: { status?: boolean; owner?: string; body?: string; category?: string }): Todo[] {
+  filterTodos(todo: Todo[], filters: { status?: boolean; owner?: string; body?: string; category?: string; limit?}): Todo[] {
 
     let filteredTodos = todo;
     // Filter by status

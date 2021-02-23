@@ -19,6 +19,7 @@ export class TodoListComponent implements OnInit {
   public todoOwner: string;
   public todoBody: string;
   public todoCategory: string;
+  public todoLimit: number;
   public viewType: 'card' | 'list' = 'card';
 
   // Inject the UserService into this component.
@@ -35,7 +36,8 @@ export class TodoListComponent implements OnInit {
       status: this.todoStatus,
       owner: this.todoOwner,
       body: this.todoBody,
-      category: this.todoCategory
+      category: this.todoCategory,
+      limit: this.todoLimit
     }).subscribe(returnedTodos => {
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();

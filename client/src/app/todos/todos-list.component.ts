@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { throwError } from 'rxjs';
+import { range, throwError } from 'rxjs';
 import { Todos } from './todos';
 import { TodosService } from './todos.service';
 
@@ -15,7 +15,7 @@ export class TodosListComponent implements OnInit {
   // These are public so that tests can reference them (.spec.ts)
   public serverFilteredTodos: Todos[];
   public filteredTodos: Todos[];
-
+  public todosLimit: number;
   public todosStatus: boolean;
   public todosOwner: string;
   public todosBody: string;
@@ -36,7 +36,8 @@ export class TodosListComponent implements OnInit {
       status: this.todosStatus,
       owner: this.todosOwner,
       body: this.todosBody,
-      category: this.todosCategory
+      category: this.todosCategory,
+      limit: this.todosLimit
     }).subscribe(returnedTodos => {
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();
@@ -63,11 +64,17 @@ export class TodosListComponent implements OnInit {
 
   public updateFilter() {
     this.filteredTodos = this.todosService.filterTodos(
-      this.serverFilteredTodos, { status: this.todosStatus,
+      this.serverFilteredTodos, {
+        status: this.todosStatus,
         owner: this.todosOwner,
         body: this.todosBody,
-        category: this.todosCategory});
+        category: this.todosCategory}
+        );
   }
+
+
+
+
 
   /**
    * Starts an asynchronous operation to update the users list

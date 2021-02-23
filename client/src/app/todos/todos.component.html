@@ -1,9 +1,41 @@
-<mat-card class="todos-card" *ngIf="this.todos">
-  <mat-card-header>
-    <mat-card-title class="user-card-owner">{{ this.todos.owner }}</mat-card-title>
-    <mat-card-subtitle class="user-card-body">{{ this.todos.body }}</mat-card-subtitle>
-    <mat-card-subtitle class="user-card-status">{{ this.todos.status }}</mat-card-subtitle>
-    <mat-card-subtitle class="user-card-category">{{ this.todos.category }}</mat-card-subtitle>
-  </mat-card-header>
-</mat-card>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Owner Column -->
+  <ng-container matColumnDef="owner">
+    <th mat-header-cell *matHeaderCellDef> Owner </th>
+    <input matInput id="todos-owner-input" placeholder="Filter by Owner"
+    [(ngModel)]="todosOwner" (input)="updateFilter()">
+  </ng-container>
+
+  <!-- Category Column -->
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef> Category </th>
+    <td mat-cell *matCellDef="let todos"> {{todos.category}} </td>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let todos"> {{todos.status}} </td>
+  </ng-container>
+
+  <!-- Body Column -->
+  <ng-container matColumnDef="body">
+    <th mat-header-cell *matHeaderCellDef> Body </th>
+    <td mat-cell *matCellDef="let todos"> {{todos.body}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="this.Todos"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+
+
+
+
 

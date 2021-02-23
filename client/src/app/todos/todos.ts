@@ -4,5 +4,6 @@ export interface Todos {
   status: boolean;
   body: string;
   category: string;
+  limit: number;
 }
 

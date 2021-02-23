@@ -32,9 +32,16 @@
 
           <mat-form-field class="input-field">
             <mat-label>Category</mat-label>
-            <input matInput id="user-status-input" placeholder="Filter by category"
+            <input matInput id="user-category-input" placeholder="Filter by category"
             [(ngModel)]="todosCategory" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
+          </mat-form-field>
+
+          <mat-form-field class="input-field">
+            <mat-label>Limit</mat-label>
+            <input matInput id="user-limit-input" placeholder="choosing limit"
+            [(ngModel)]="todosLimit" (input)="getTodosFromServer()">
+            <mat-hint>Choosing Limit</mat-hint>
           </mat-form-field>
         </div>
       </mat-card-content>
@@ -48,11 +55,6 @@
   <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todosError" >
     <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
     <div [ngSwitch]="viewType">
-
-      <!-- Card grid view -->
-      <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="todos-cards-container">
-        <app-todos simple="true" *ngFor="let todos of filteredTodos" class="todos-card" [todos]="todos" fxFlex="1 1 280px"></app-todos>
-      </div>
 
       <!-- List view -->
       <mat-card *ngSwitchCase="'list'">

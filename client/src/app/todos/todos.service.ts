@@ -1,5 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { LiteralPrimitive } from '@angular/compiler';
 import { Injectable } from '@angular/core';
+import { MatListIconCssMatStyler } from '@angular/material/list';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Todos } from './todos';
@@ -12,11 +14,18 @@ export class TodosService {
   }
 
 
-  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string }): Observable<Todos[]> {
+  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string;limit?: number }): Observable<Todos[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.status) {
-        httpParams = httpParams.set('status', filters.status.toString());
+        let com = 'string';
+        if(filters.status === true){
+          com = 'Complete';
+        }
+        else{
+          com = 'Incomplete';
+        }
+        httpParams = httpParams.set('status', com);
       }
       if (filters.owner) {
         httpParams = httpParams.set('owner', filters.owner);
@@ -26,6 +35,9 @@ export class TodosService {
       }
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
+      }
+      if (filters.limit) {
+        httpParams = httpParams.set('limit', filters.limit.toString());
       }
     }
     return this.httpClient.get<Todos[]>(this.todosUrl, {
@@ -38,7 +50,7 @@ export class TodosService {
     return this.httpClient.get<Todos>(this.todosUrl + '/' + id);
   }
 
-  filterTodos(todo: Todos[], filters: { status?: boolean; owner?: string; body?: string; category?: string }): Todos[] {
+  filterTodos(todo: Todos[], filters: { status?: boolean; owner?: string; body?: string; category?: string; limit?: number}): Todos[] {
 
     let filteredTodos = todo;
     // Filter by status
@@ -64,6 +76,8 @@ export class TodosService {
       filters.body = filters.body.toLowerCase();
       filteredTodos = filteredTodos.filter(todos => todos.body.toLowerCase().indexOf(filters.body) !== -1);
     }
+
+
     return filteredTodos;
   }
 }

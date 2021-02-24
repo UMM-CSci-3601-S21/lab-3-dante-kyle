@@ -1,16 +1,16 @@
-.todos-cards-container {
+.todos-list-item {
   width: 100%;
   position: relative;
-}
-
-.todos-card {
+  border-style: ridge;
+  border-color: rgb(16, 16, 56);
   margin-bottom: 10px;
 }
+ p{
+  white-space: normal;
+  word-wrap: normal;
+  width: 70vw;
 
-.search-card {
-  margin-bottom: 10px;
+
 }
 
-.mat-radio-button {
-  margin: 0 12px;
-}
+

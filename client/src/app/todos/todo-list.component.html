@@ -66,11 +66,11 @@
             <h3 mat-subheader>Todos</h3>
             <a mat-list-item *ngFor="let todo of this.filteredTodos" [routerLink]="['/todo', todo._id]" class="todos-list-item">
 
-              <p matLine class="todos-list-id"> id: {{this.todo._id}} </p>
-              <p matLine class="todos-list-owner"> Owner:  {{this.todo.owner}} </p>
-              <p matLine class="todos-list-status"> Status: {{this.todo.status}} </p>
-              <p matLine class="todos-list-category"> Category: {{this.todo.category}} </p>
-              <p matLine class="todos-list-body"> Body: {{this.todo.body}} </p>
+              <p matLine class="todos-list-id">id: {{this.todo._id}}</p>
+              <p matLine class="todos-list-owner">Owner: {{this.todo.owner}}</p>
+              <p matLine class="todos-list-status">Completion Status: {{this.todo.status}}</p>
+              <p matLine class="todos-list-category">Category: {{this.todo.category}}</p>
+              <p matLine class="todos-list-body">Body: {{this.todo.body}}</p>
 
             </a>
           </mat-nav-list>

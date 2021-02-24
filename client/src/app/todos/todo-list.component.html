@@ -36,7 +36,15 @@
             [(ngModel)]="todoCategory" (input)="updateFilter()">
             <mat-hint>Filtered on client</mat-hint>
           </mat-form-field>
+
+          <mat-form-field class="input-field">
+            <mat-label>Limit</mat-label>
+            <input matInput id="user-limit-input" placeholder="choosing limit"
+            [(ngModel)]="todoLimit" (input)="updateFilter()">
+            <mat-hint>Choosing Limit</mat-hint>
+          </mat-form-field>
         </div>
+        <br>
       </mat-card-content>
     </mat-card>
   </div>
@@ -45,20 +53,26 @@
 
 
 <div fxLayout="row">
-  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todoError" >
+  <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" *ngIf="serverFilteredTodos; else todosError" >
     <!-- Switch between card and list view based on the viewType variable, set above in the mar-radio-group -->
     <div [ngSwitch]="viewType">
 
-      <!-- Card grid view -->
-      <div *ngSwitchCase="'card'" fxLayout="row wrap" fxLayoutGap="10px" class="todo-cards-container">
-        <app-todo-card simple="true" *ngFor="let todo of filteredTodos" class="todo-card" [todos]="todo" fxFlex="1 1 280px"></app-todo-card>
-      </div>
+
 
       <!-- List view -->
       <mat-card *ngSwitchCase="'list'">
         <mat-card-content>
-          <mat-nav-list class="todo-nav-list">
+          <mat-nav-list class="todos-nav-list">
             <h3 mat-subheader>Todos</h3>
+            <a mat-list-item *ngFor="let todo of this.filteredTodos" [routerLink]="['/todo', todo._id]" class="todos-list-item">
+
+              <p matLine class="todos-list-id">id: {{this.todo._id}}</p>
+              <p matLine class="todos-list-owner">Owner: {{this.todo.owner}}</p>
+              <p matLine class="todos-list-status">Completion Status: {{this.todo.status}}</p>
+              <p matLine class="todos-list-category">Category: {{this.todo.category}}</p>
+              <p matLine class="todos-list-body">Body: {{this.todo.body}}</p>
+
+            </a>
           </mat-nav-list>
         </mat-card-content>
       </mat-card>
@@ -67,8 +81,8 @@
   </div>
 
   <!-- Maybe this should be a pop-up instead of just a text message? Not sure. -->
-  <ng-template #todoError>
-    <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="todo-error">
+  <ng-template #todosError>
+    <div fxFlex fxFlex.gt-sm="80" fxFlexOffset.gt-sm="10" class="todos-error">
       <mat-error>
         There was a problem loading the todos. Possibly the server is down or perhaps there are network
         issues.

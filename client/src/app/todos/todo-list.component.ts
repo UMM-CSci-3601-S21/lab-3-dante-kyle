@@ -4,7 +4,7 @@ import { Todo } from './todo';
 import { TodoService } from './todo.service';
 
 @Component({
-  selector: 'app-todo-list-component',
+  selector: 'app-todos-list-component',
   templateUrl: 'todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
   providers: []
@@ -19,7 +19,8 @@ export class TodoListComponent implements OnInit {
   public todoOwner: string;
   public todoBody: string;
   public todoCategory: string;
-  public viewType: 'card' | 'list' = 'card';
+  public todoLimit: number;
+  public viewType: 'card' | 'list' = 'list';
 
   // Inject the UserService into this component.
   // That's what happens in the following constructor.
@@ -35,7 +36,8 @@ export class TodoListComponent implements OnInit {
       status: this.todoStatus,
       owner: this.todoOwner,
       body: this.todoBody,
-      category: this.todoCategory
+      category: this.todoCategory,
+      limit: this.todoLimit
     }).subscribe(returnedTodos => {
       this.serverFilteredTodos = returnedTodos;
       this.updateFilter();
@@ -62,10 +64,12 @@ export class TodoListComponent implements OnInit {
 
   public updateFilter() {
     this.filteredTodos = this.todoService.filterTodos(
-      this.serverFilteredTodos, { status: this.todoStatus,
+      this.serverFilteredTodos, {
+        status: this.todoStatus,
         owner: this.todoOwner,
         body: this.todoBody,
-        category: this.todoCategory});
+        category: this.todoCategory,
+        limit: this.todoLimit});
   }
 
   /**

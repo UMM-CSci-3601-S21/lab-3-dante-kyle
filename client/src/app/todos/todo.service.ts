@@ -11,7 +11,7 @@ export class TodoService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string }): Observable<Todo[]> {
+  getTodos(filters?: { status?: boolean; owner?: string; body?: string; category?: string; limit?: number}): Observable<Todo[]> {
     let httpParams: HttpParams = new HttpParams();
     if (filters) {
       if (filters.status) {
@@ -26,6 +26,10 @@ export class TodoService {
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
       }
+      // Filter by limit
+      if (filters.limit) {
+        httpParams = httpParams.set('limit', filters.limit.toString());
+      }
     }
     return this.httpClient.get<Todo[]>(this.todoUrl, {
       params: httpParams,
@@ -36,14 +40,17 @@ export class TodoService {
     return this.httpClient.get<Todo>(this.todoUrl + '/' + id);
   }
 
-  filterTodos(todo: Todo[], filters: { status?: boolean; owner?: string; body?: string; category?: string }): Todo[] {
+  filterTodos(todo: Todo[], filters: { status?: boolean; owner?: string; body?: string; category?: string; limit?: number}): Todo[] {
 
     let filteredTodos = todo;
+    const to = [];
     // Filter by status
     if (filters.status) {
-
-      filteredTodos = filteredTodos.filter(todos => todos.status.toString().toLowerCase().indexOf(filters.status.toString()) !== -1);
+      filteredTodos = filteredTodos.filter(todos =>
+        todos.status.toString().toLowerCase().indexOf(filters.status.toString().toLowerCase()) !== -1);
     }
+
+
 
     // Filter by owner
     if (filters.owner) {
@@ -62,6 +69,19 @@ export class TodoService {
       filters.body = filters.body.toLowerCase();
       filteredTodos = filteredTodos.filter(todos => todos.body.toLowerCase().indexOf(filters.body) !== -1);
     }
+     if(filters.limit){
+      let i = 0;
+      while(i < filters.limit) {
+        const random = Math.floor(Math.random() * filteredTodos.length);
+        to.push(filteredTodos[random]);
+        i++;
+      }
+      filteredTodos = to;
+    }
+
+
+
+
     return filteredTodos;
   }
 }

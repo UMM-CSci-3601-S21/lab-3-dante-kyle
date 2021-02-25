@@ -12,11 +12,11 @@ describe('Todo list', () => {
     page.getTodoTitle().should('have.text', 'Todos');
   });
 
-  it('Should type something in the name filter and check that it returned correct elements', () => {
-    // Filter for owner 'Lynn Ferguson'
+  it('Should type something in the owner filter and check that it returned correct elements', () => {
+    // Filter for owner 'Blanche'
     cy.get('#todo-owner-input').type('Blanche');
 
-    // All of the list items should have the name we are filtering by
+    // All of the list items should have the owner we are filtering by
     page.getTodoListItems().each(e => {
       cy.wrap(e).find('.todos-list-owner').should('have.text', 'Owner: Blanche');
     });
@@ -48,18 +48,39 @@ describe('Todo list', () => {
   });
 
   it('Should type something partial in the owner filter and check that it returned correct elements', () => {
-    // Filter for companies that contain 'ti'
+    // Filter for owners that contain 'B'
     cy.get('#todo-owner-input').type('B');
 
-    // Go through each of the cards that are being shown and get the companies
-    page.getTodoListItems().find('.todos-list-owner')
-      // We should see these owners
-      .should('contain.text', 'Owner: Blanche')
-      .should('contain.text', 'Owner: Barry')
-      .should('contain.text', 'Owner: Roberta')
-      // We shouldn't see these owners
-      .should('not.contain.text', 'Owner: Dawn')
-      .should('not.contain.text', 'Owner: Fry')
-      .should('not.contain.text', 'Owner: Workman');
+    page.getTodoListItems().find('.todos-list-owner');
+
+    cy.get('.todos-list-owner').should('contain.text', 'B');
+  });
+
+  it('Should type something partial in the status filter and check that it returned correct elements', () => {
+    // Filter for owners that contain 'ru'
+    cy.get('#todo-status-input').type('ru');
+
+    page.getTodoListItems().find('.todos-list-status');
+
+    cy.get('.todos-list-status').should('contain.text', 'ru');
+  });
+
+  it('Should type something partial in the category filter and check that it returned correct elements', () => {
+    // Filter for categories that contain 'w'
+    cy.get('#todo-category-input').type('w');
+
+    page.getTodoListItems().find('.todos-list-category');
+
+    cy.get('.todos-list-category').should('contain.text', 'w');
+  });
+
+  it('Should type something partial in the body filter and check that it returned correct elements', () => {
+    // Filter for companies that contain 'ipsum'
+    cy.get('#todo-body-input').type('ipsum');
+
+    // Go through each of the list items that are being shown and get the bodies.
+    page.getTodoListItems().find('.todos-list-body');
+      // We should see todos with 'ipsum' in there
+    cy.get('.todos-list-body').should('contain.text', 'ipsum');
   });
 });

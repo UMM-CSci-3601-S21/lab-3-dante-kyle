@@ -75,7 +75,7 @@ describe('TodosListComponent', () => {
     expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Julia')).toBe(true);
   });
 
-  it('doesn\'t contain a user named "Bob"', () => {
+  it('doesn\'t contain an owner named "Bob"', () => {
     expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.owner === 'Bob')).toBe(false);
   });
 

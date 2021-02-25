@@ -26,7 +26,6 @@ export class TodoService {
       if (filters.body) {
         httpParams = httpParams.set('body', filters.body);
       }
-      // Filter by limit
       if (filters.limit) {
         httpParams = httpParams.set('limit', filters.limit.toString());
       }
@@ -50,8 +49,6 @@ export class TodoService {
         todos.status.toString().toLowerCase().indexOf(filters.status.toString().toLowerCase()) !== -1);
     }
 
-
-
     // Filter by owner
     if (filters.owner) {
       filters.owner = filters.owner.toLowerCase();
@@ -69,6 +66,8 @@ export class TodoService {
       filters.body = filters.body.toLowerCase();
       filteredTodos = filteredTodos.filter(todos => todos.body.toLowerCase().indexOf(filters.body) !== -1);
     }
+
+    // Filter by limit
      if(filters.limit){
       let i = 0;
       while(i < filters.limit) {
@@ -78,9 +77,6 @@ export class TodoService {
       }
       filteredTodos = to;
     }
-
-
-
 
     return filteredTodos;
   }

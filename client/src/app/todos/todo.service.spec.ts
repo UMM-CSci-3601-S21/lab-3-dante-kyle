@@ -135,16 +135,53 @@ describe('TodoService', () => {
         req.flush(testTodos);
       });
 
+      it('correctly calls api/todos with filter parameter \'body\'', () => {
+
+        todoService.getTodos({ body: 'Novus ordo seclorum' }).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('body')
+        );
+
+        // Check that the request made to that URL was a GET request.
+        expect(req.request.method).toEqual('GET');
+
+        //
+        expect(req.request.params.get('body')).toEqual('Novus ordo seclorum');
+
+        req.flush(testTodos);
+      });
+
+      it('correctly calls api/todos with filter parameter \'limit\'', () => {
+
+        todoService.getTodos({ limit: 2}).subscribe(
+          todos => expect(todos).toBe(testTodos)
+        );
+
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('limit')
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        expect(req.request.params.get('limit')).toEqual('2');
+
+        req.flush(testTodos);
+      });
+
       it('correctly calls api/todos with multiple filter parameters', () => {
 
-        todoService.getTodos({ category: 'homework', status: true }).subscribe(
+        todoService.getTodos({ category: 'homework', status: true, limit: 2}).subscribe(
           todos => expect(todos).toBe(testTodos)
         );
 
         // Specify that (exactly) one request will be made to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl)
-            && request.params.has('category') && request.params.has('status')
+            && request.params.has('category') && request.params.has('status') && request.params.has('limit')
         );
 
         // Check that the request made to that URL was a GET request.
@@ -153,6 +190,7 @@ describe('TodoService', () => {
         // Check that the role parameters are correct
         expect(req.request.params.get('category')).toEqual('homework');
         expect(req.request.params.get('status')).toEqual('true');
+        expect(req.request.params.get('limit')).toEqual('2');
 
         req.flush(testTodos);
       });
@@ -195,14 +233,14 @@ describe('TodoService', () => {
      * all those complications.
      */
     it('filters by owner', () => {
-      const todoName = 'u';
-      const filteredTodos = todoService.filterTodos(testTodos, { owner: todoName });
+      const todoOwner = 'u';
+      const filteredTodos = todoService.filterTodos(testTodos, { owner: todoOwner });
       // There should be 2 todos with an 'u' in their
       // owner's name.
       expect(filteredTodos.length).toBe(2);
       // Every returned todo's name should contain an 'u'.
       filteredTodos.forEach(todo => {
-        expect(todo.owner.indexOf(todoName)).toBeGreaterThanOrEqual(0);
+        expect(todo.owner.indexOf(todoOwner)).toBeGreaterThanOrEqual(0);
       });
     });
 
@@ -229,6 +267,22 @@ describe('TodoService', () => {
         expect(todo.owner.indexOf(todoOwner)).toBeGreaterThanOrEqual(0);
         expect(todo.category.indexOf(todoCategory)).toBeGreaterThanOrEqual(0);
       });
+    });
+
+    it('filters by body', () => {
+      const todoBody = 'Novus ordo seclorum';
+      const filter = { body: todoBody };
+      const filteredTodos = todoService.filterTodos(testTodos, filter);
+      expect(filteredTodos.length).toBe(1);
+      filteredTodos.forEach(todo => {
+        expect(todo.body.indexOf(todoBody)).toBeGreaterThanOrEqual(0);
+      });
+    });
+
+    it('filters by limit', () => {
+      const filter = { limit: 2 };
+      const filteredTodos = todoService.filterTodos(testTodos, filter);
+      expect(filteredTodos.length).toBe(2);
     });
   });
 });
